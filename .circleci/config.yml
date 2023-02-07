@@ -13,9 +13,7 @@ jobs:
     - checkout
     - node/install-packages:
         pkg-manager: npm
-    - run:
-        command: node server.js
-        name: Run Mocha tests
+    
 workflows:
   node-tests:
     jobs:
