@@ -5,8 +5,5 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ACCOUNT_URL
-          no-output-timeout: 20m
-          profile-name: 'myProfileName'
           repo: "onaoshi"
-          tag: 'latest'
+          tag: 'latest1'
