@@ -8,13 +8,13 @@ workflows:
           account-url: 234514745840
           aws-access-key-id: ${AWS_ACCESS_KEY_ID}
           aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-          context: myContext
+          context: "myContext"
           create-repo: true
           dockerfile: Dockerfile
           no-output-timeout: 20m
           path: .
-          profile-name: myProfileName
-          region: ap-northeast-1
-          repo: onaoshi
+          profile-name: "myProfileName"
+          region: "ap-northeast-1"
+          repo: "onaoshi"
           skip-when-tags-exist: false
           tag: 'latest'
