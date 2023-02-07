@@ -6,8 +6,6 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.15.0
 jobs:
   test:
-    executor:
-      node: 16
     steps:
       - checkout
       - node/install:
