@@ -34,16 +34,17 @@ jobs:
                 --capacity-providers FARGATE FARGATE_SPOT  \
                 --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1\                --region ${AWS_DEFAULT_REGION}
         - aws-ecs/run-task:
-              echo $CLUSTER_NAME
+            command: |
+              echo $CLUSTER_NAME  
 
-              cluster: arn:aws:ecs:ap-northeast-1:234514745840:cluster/duyen-cluster
-              capacity-provider-strategy: capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1
-              launch-type: ""
-              task-definition: duyen-TD2
-              subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-              security-group-ids: $SECURITY_GROUP_IDS
-              assign-public-ip : ENABLED
-              count: 4
+            cluster: arn:aws:ecs:ap-northeast-1:234514745840:cluster/duyen-cluster
+            capacity-provider-strategy: capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1
+            launch-type: ""
+            task-definition: duyen-TD2
+            subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
+            security-group-ids: $SECURITY_GROUP_IDS
+            assign-public-ip : ENABLED
+            count: 4
 
 workflows:
   run-task:
