@@ -5,7 +5,7 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          account-url: '234514745840'
+          account-url: '234514745840.dkr.ecr.ap-northeast-1.amazonaws.com'
           aws-access-key-id: "AKIATNGRLBHYDPPYHGIZ"
           aws-secret-access-key: "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"
           context: "myContext"
@@ -14,7 +14,6 @@ workflows:
           no-output-timeout: 20m
           path: .
           profile-name: 'myProfileName'
-          region: 'ap-northeast-1'
           repo: "onaoshi"
           skip-when-tags-exist: false
           tag: 'latest'
