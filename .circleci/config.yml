@@ -1,50 +1,18 @@
-version: '2.1'
+version: 2.1
+
 orbs:
-  aws-ecs: circleci/aws-ecs@2.0
-  aws-cli: circleci/aws-cli@1.3
-  orb-tools: circleci/orb-tools@10.0
-  shellcheck: circleci/shellcheck@2.2
-  jq: circleci/jq@2.2.0
-
-jobs:  
-
-  test-fargatespot:
-      docker:
-        - image: cimg/base:stable
-      steps:
-        - aws-cli/setup
-        - jq/install
-        - run:
-            name: Get cluster info
-            command: |
-              SERVICES_OBJ=$(aws ecs describe-services --cluster "${ECS_CLUSTER_NAME}" --services "${ECS_SERVICE_NAME}")
-              VPC_CONF_OBJ=$(echo $SERVICES_OBJ | jq '.services[].networkConfiguration.awsvpcConfiguration')
-              SUBNET_ONE=$(echo "$VPC_CONF_OBJ" |  jq '.subnets[0]')
-              SUBNET_TWO=$(echo "$VPC_CONF_OBJ" |  jq '.subnets[1]')
-              SECURITY_GROUP_IDS=$(echo "$VPC_CONF_OBJ" |  jq '.securityGroups[0]')
-              CLUSTER_NAME=$(echo "$SERVICES_OBJ" |  jq '.services[].clusterArn')
-              echo "export SUBNET_ONE=$SUBNET_ONE" >> $BASH_ENV ; source $BASH_ENV;
-              echo "export SUBNET_TWO=$SUBNET_TWO" >> $BASH_ENV; source $BASH_ENV;
-              echo "export SECURITY_GROUP_IDS=$SECURITY_GROUP_IDS" >> $BASH_ENV=$SECURITY_GROUP_IDS=$SECURITY_GROUP_IDS" >> $BASH_ENV"; source $BASH_ENV; >> $BASH_ENV ; source $BASH_ENV;
-              echo "export CLUSTER_NAME=$CLUSTER_NAME" >> $BASH_ENV; source $BASH_ENV;
-        - run:
-            name: Associate cluster
-            command: |
-              aws ecs put-cluster-capacity-providers \
-                --cluster "${ECS_CLUSTER_NAME}" \
-                --capacity-providers FARGATE FARGATE_SPOT  \
-                --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1\                --region ${AWS_DEFAULT_REGION}
-        - aws-ecs/run-task:
-              cluster: $CLUSTER_NAME
-              capacity-provider-strategy: capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1
-              launch-type: ""
-              task-definition: duyen-TD2
-              subnet-ids: '$SUBNET_ONE, $SUBNET_TWO'
-              security-group-ids: $SECURITY_GROUP_IDS
-              assign-public-ip : ENABLED
-              count: 2
+  aws-ecr: circleci/aws-ecr@x.y.z
+  aws-ecs: circleci/aws-ecs@0x.y.z
 
 workflows:
-  run-task:
+  build-and-deploy:
     jobs:
-      - test-fargatespot
+      - aws-ecr/build-and-push-image:
+          repo: "234514745840.dkr.ecr.ap-northeast-1.amazonaws.com/onaoshi"
+          tag: "latest"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "onaoshi-service63333"
+          cluster: "duyen-cluster"
+          container-image-name-updates: "container=onaoshi-service63333,tag=latest"
