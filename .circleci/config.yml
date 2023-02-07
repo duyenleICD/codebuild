@@ -9,7 +9,7 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           repo: "234514745840.dkr.ecr.ap-northeast-1.amazonaws.com/onaoshi"
-          tag: "latest"
+          tag: "${CIRCLE_SHA1}"
       # - aws-ecs/deploy-service-update:
       #     requires:
       #       - build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
