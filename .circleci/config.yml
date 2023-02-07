@@ -1,24 +1,29 @@
 version: 2.1
 
+anchors:
+  filters: &filters
+    filters:
+      branches:
+        only: main
+
 orbs:
-  aws-ecr: circleci/aws-ecr@6.7.0
-  # aws-ecs: circleci/aws-ecs@2.0
+  aws-ecr: circleci/aws-ecr@6.15.2
 
 workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          account-url: ${AWS_ECR_REGISTRY_ID}
-          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
-          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          name: Build and Push Docker Image
+          account-url: AWS_ECR_REGISTRY_ID
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_REGION
+          context: wordpress-test
+          create-repo: false
           dockerfile: Dockerfile
+          no-output-timeout: 20m
           path: .
-          region: ${AWS_REGION}
-          repo: onaoshi
-          tag: "$CIRCLE_SHA1"
-      # - aws-ecs/deploy-service-update:
-      #     requires:
-      #       - build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-      #     family: "onaoshi-service63333"
-      #     cluster: "duyen-cluster"
-      #     container-image-name-updates: "container=onaoshi-service63333,tag=latest"
+          profile-name: default
+          repo: wordpress
+          skip-when-tags-exist: false
+          tag: 'latest,$CIRCLE_SHA1'
