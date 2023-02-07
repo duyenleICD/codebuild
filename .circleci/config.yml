@@ -7,6 +7,4 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "onaoshi"
           context: dev
-          public-registry: true # use this if you use public repository
-
           tag: '11'
