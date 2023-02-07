@@ -14,10 +14,10 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           name: Build and Push Docker Image
-          account-url: AWS_ECR_REGISTRY_ID
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          region: AWS_REGION
+          account-url: ${AWS_ECR_REGISTRY_ID}
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          region: ${AWS_REGION}
           context: wordpress-test
           create-repo: false
           dockerfile: Dockerfile
