@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@6.7.0
-  aws-ecs: circleci/aws-ecs@2.0
+  # aws-ecs: circleci/aws-ecs@2.0
 
 workflows:
   build_and_push_image:
@@ -11,11 +11,10 @@ workflows:
           account-url: ${AWS_ECR_REGISTRY_ID}
           aws-access-key-id: ${AWS_ACCESS_KEY_ID}
           aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
-          create-repo: true
           dockerfile: Dockerfile
           path: .
           region: ${AWS_REGION}
-          repo: circleci-ecr-orb-demo
+          repo: onaoshi
           tag: "$CIRCLE_SHA1"
       # - aws-ecs/deploy-service-update:
       #     requires:
