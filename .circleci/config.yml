@@ -7,7 +7,7 @@ orbs:
 jobs:
   test:
     executor:
-      name: node
+      name: node/default
       tag: 16
     steps:
     - checkout
