@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@2.0
+  aws-ecr: circleci/aws-ecr@6.0.0
   aws-ecs: circleci/aws-ecs@2.0
 
 workflows:
@@ -10,9 +10,9 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "234514745840.dkr.ecr.ap-northeast-1.amazonaws.com/onaoshi"
           tag: "latest"
-      - aws-ecs/deploy-service-update:
-          requires:
-            - build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "onaoshi-service63333"
-          cluster: "duyen-cluster"
-          container-image-name-updates: "container=onaoshi-service63333,tag=latest"
+      # - aws-ecs/deploy-service-update:
+      #     requires:
+      #       - build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+      #     family: "onaoshi-service63333"
+      #     cluster: "duyen-cluster"
+      #     container-image-name-updates: "container=onaoshi-service63333,tag=latest"
