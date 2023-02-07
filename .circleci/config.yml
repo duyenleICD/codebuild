@@ -7,20 +7,15 @@ orbs:
 jobs:
   test:
     executor:
-      name: node/default
-      tag: 14.15.1
+      name: node
+      tag: 16
     steps:
     - checkout
     - node/install-packages:
         pkg-manager: npm
     - run:
-        command: npm test
+        command: node server.js
         name: Run Mocha tests
-    - store_artifacts:
-        path: /tmp/test-results
-        destination: raw-test-output
-    - store_test_results:
-        path: /tmp/test-results
 workflows:
   node-tests:
     jobs:
