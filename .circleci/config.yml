@@ -7,12 +7,12 @@ orbs:
 workflows:
   build-and-deploy:
     jobs:
-      - aws-ecr/build-and-push-image:
+      - build-and-push-image:
           repo: "234514745840.dkr.ecr.ap-northeast-1.amazonaws.com/onaoshi"
           tag: "latest"
-      - aws-ecs/deploy-service-update:
+      - deploy-service-update:
           requires:
-            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+            - build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
           family: "onaoshi-service63333"
           cluster: "duyen-cluster"
           container-image-name-updates: "container=onaoshi-service63333,tag=latest"
