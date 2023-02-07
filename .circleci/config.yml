@@ -6,4 +6,4 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           repo: "onaoshi"
-          tag: 'latest'
+          tag: 'v1'
