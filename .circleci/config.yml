@@ -5,7 +5,7 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          account-url: '234514745840.dkr.ecr.ap-northeast-1.amazonaws.com'
+          account-url: AWS_ACCOUNT_URL
           aws-access-key-id: 'AKIATNGRLBHYDPPYHGIZ'
           aws-secret-access-key: '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'
           context: "myContext"
