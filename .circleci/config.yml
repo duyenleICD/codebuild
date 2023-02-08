@@ -10,19 +10,13 @@ workflows:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
-          post-steps:
-            - run:
-                name: Test the deployment
-                command: |
-                  echo "duyen-----------$SERVICE_NAME-------------------------${SERVICE_NAME}"
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build_and_push_image
           aws-region: ${AWS_DEFAULT_REGION}
           family: "${ECS_TASK_DEFINITION_NAME}"
           cluster-name: "${ECS_CLUSTER_NAME}"
-          container-image-name-updates: "container=${SERVICE_NAME},image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
-          verify-revision-is-deployed: true
+          container-image-name-updates: "container=${ECS_TASK_DEFINITION_NAME},image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
           post-steps:
             - run:
                 name: Test the deployment
