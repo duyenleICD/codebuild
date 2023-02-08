@@ -16,7 +16,7 @@ workflows:
           aws-region: ${AWS_DEFAULT_REGION}
           family: "onaoshi-service63333"
           cluster-name: "duyen-cluster"
-          container-image-name-updates: "container=onaoshi-service63333,image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
+          container-image-name-updates: "container=duyen-TD2,image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
           verify-revision-is-deployed: true
           post-steps:
             - run:
