@@ -21,7 +21,7 @@ workflows:
           aws-region: ${AWS_DEFAULT_REGION}
           family: "${ECS_TASK_DEFINITION_NAME}"
           cluster-name: "${ECS_CLUSTER_NAME}"
-          container-image-name-updates: "container=${ECS_CONTAINER_NAME},image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
+          container-image-name-updates: "container=${SERVICE_NAME},image-and-tag=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_RESOURCE_NAME_PREFIX}:${CIRCLE_SHA1}"
           verify-revision-is-deployed: true
           post-steps:
             - run:
