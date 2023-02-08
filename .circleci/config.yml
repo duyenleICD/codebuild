@@ -10,6 +10,11 @@ workflows:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           region: ${AWS_DEFAULT_REGION}
           tag: "${CIRCLE_SHA1}"
+          post-steps:
+            - run:
+                name: Test the deployment
+                command: |
+                  echo "duyen------------------------------------${SERVICE_NAME}"
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build_and_push_image
@@ -22,7 +27,6 @@ workflows:
             - run:
                 name: Test the deployment
                 command: |
-                  echo "duyen------------------------------------${SERVICE_NAME}"
                   TARGET_GROUP_ARN=$(aws ecs describe-services --cluster ${ECS_CLUSTER_NAME} --services ${SERVICE_NAME} | jq -r '.services[0].loadBalancers[0].targetGroupArn')
                   ELB_ARN=$(aws elbv2 describe-target-groups --target-group-arns $TARGET_GROUP_ARN | jq -r '.TargetGroups[0].LoadBalancerArns[0]')
                   ELB_DNS_NAME=$(aws elbv2 describe-load-balancers --load-balancer-arns $ELB_ARN | jq -r '.LoadBalancers[0].DNSName')
