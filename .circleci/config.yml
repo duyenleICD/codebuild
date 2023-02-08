@@ -14,7 +14,7 @@ workflows:
             - run:
                 name: Test the deployment
                 command: |
-                  echo "duyen------------------------------------${SERVICE_NAME}"
+                  echo "duyen-----------$ECS_CLUSTER_NAME---------<<ECS_CLUSTER_NAME>>----------------${SERVICE_NAME}"
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build_and_push_image
